@@ -29,6 +29,10 @@ public class repos_data {
     @Expose
     private  String html_url;
 
+    @SerializedName("html_url")
+    @Expose
+    private String owner_html_url;
+
     public String getName() {
         return name;
     }

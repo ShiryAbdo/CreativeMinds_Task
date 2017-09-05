@@ -4,6 +4,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -32,13 +33,15 @@ public class Shwo_Cach extends AppCompatActivity {
         Realm.setDefaultConfiguration(config);
         realm = Realm.getDefaultInstance();
           results= realm.where(Cache_repos_data.class).findAllAsync();
+          Toast.makeText(getApplicationContext(),
+                  results.get(0)+"", Toast.LENGTH_LONG).show();
           data=new ArrayList<>();
           recyclerView = (RecyclerView)findViewById(R.id.card_recycler_view);
           recyclerView.setHasFixedSize(true);
           RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
           recyclerView.setLayoutManager(layoutManager);
-
-          adaptor= new adaptor(results,this);
+          data.addAll(results);
+          adaptor= new adaptor(data,this);
           recyclerView.setAdapter(adaptor);
           adaptor.notifyDataSetChanged();
 
@@ -50,7 +53,7 @@ public class Shwo_Cach extends AppCompatActivity {
 
 
 
-        data.addAll(results);
+//        data.addAll(results);
 
 
 ////        recyclerView.setAdapter(new MyListAdapter(mRealm.allObjects(Cache_repos_data.class)));

@@ -23,13 +23,13 @@ import io.realm.RealmResults;
 
 //
 public class adaptor   extends RecyclerView.Adapter<adaptor.ViewHolder> {
-    private  ArrayList<Cache_repos_data> androidList;
+    private  RealmResults<Cache_repos_data> androidList;
     private Context context;
     private int lastPosition=-1;
 
 
 
-    public adaptor(ArrayList<Cache_repos_data> cache_repos_datas, Context con) {
+    public adaptor(RealmResults<Cache_repos_data> cache_repos_datas, Context con) {
         this.androidList = cache_repos_datas;
         this.context=con;
 

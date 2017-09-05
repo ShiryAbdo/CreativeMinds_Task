@@ -18,13 +18,10 @@ public class Shwo_Cach extends AppCompatActivity {
 
     private RecyclerView recyclerView;
     private ArrayList<Cache_repos_data> data;
-     private Realm mRealm;
-    adaptor adaptor;
+     adaptor adaptor;
     Realm realm;
     RealmResults<Cache_repos_data> results;
-    ArrayList<String> spacecrafts;
-     RecyclerView rv;
-    @Override
+      @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shwo__cach);
@@ -33,21 +30,28 @@ public class Shwo_Cach extends AppCompatActivity {
                 .Builder( ).deleteRealmIfMigrationNeeded() .build();
 
         Realm.setDefaultConfiguration(config);
-        mRealm = Realm.getDefaultInstance();
-        initViews();
-    }
+        realm = Realm.getDefaultInstance();
+          results= realm.where(Cache_repos_data.class).findAllAsync();
+          data=new ArrayList<>();
+          recyclerView = (RecyclerView)findViewById(R.id.card_recycler_view);
+          recyclerView.setHasFixedSize(true);
+          RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
+          recyclerView.setLayoutManager(layoutManager);
+
+          adaptor= new adaptor(results,this);
+          recyclerView.setAdapter(adaptor);
+          adaptor.notifyDataSetChanged();
+
+      }
 
     private void initViews(){
-        recyclerView = (RecyclerView)findViewById(R.id.card_recycler_view);
-        recyclerView.setHasFixedSize(true);
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
-        recyclerView.setLayoutManager(layoutManager);
 
 
 
-        results= realm.where(Cache_repos_data.class).findAll();
+
+
         data.addAll(results);
-        adaptor= new adaptor(data,this);
+
 
 ////        recyclerView.setAdapter(new MyListAdapter(mRealm.allObjects(Cache_repos_data.class)));
 //        RealmResults<Cache_repos_data> cache_repos_datas =mRealm.allObjects(Cache_repos_data.class);
@@ -81,9 +85,9 @@ public class Shwo_Cach extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (mRealm != null) {
-            mRealm.close();
-            mRealm = null;
+        if (realm != null) {
+            realm.close();
+            realm = null;
         }
     }
 

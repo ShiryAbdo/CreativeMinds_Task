@@ -1,6 +1,7 @@
 package com.example.shirya.creativeminds_task;
 
 import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
 import io.realm.annotations.Required;
 
 /**
@@ -8,6 +9,18 @@ import io.realm.annotations.Required;
  */
 
 public class Cache_repos_data  extends RealmObject {
+
+    @PrimaryKey
+    private int id;
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public int getId() {
+        return id;
+
+    }
 
     @Required
     private String name;
@@ -18,7 +31,7 @@ public class Cache_repos_data  extends RealmObject {
     @Required
     private String description;
     @Required
-    private String fork;
+    private  Boolean fork;
 
     @Required
     private String html_url;
@@ -50,11 +63,11 @@ public class Cache_repos_data  extends RealmObject {
         this.description = description;
     }
 
-    public String getFork() {
+    public Boolean getFork() {
         return fork;
     }
 
-    public void setFork(String fork) {
+    public void setFork(Boolean fork) {
         this.fork = fork;
     }
 

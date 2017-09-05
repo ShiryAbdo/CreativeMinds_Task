@@ -53,33 +53,6 @@ public class Shwo_Cach extends AppCompatActivity {
 
 
 
-//        data.addAll(results);
-
-
-////        recyclerView.setAdapter(new MyListAdapter(mRealm.allObjects(Cache_repos_data.class)));
-//        RealmResults<Cache_repos_data> cache_repos_datas =mRealm.allObjects(Cache_repos_data.class);
-//        adaptor adp = new adaptor(cache_repos_datas,this);
-//
-//        recyclerView.setAdapter(adp);
-
-        // 'realm' is a field variable
-//        realm = Realm.getInstance(this);
-//        RealmResults<Cache_repos_data> toDoItems = realm
-//                .where(Cache_repos_data.class)
-//                .findAllSorted("id", Sort.ASCENDING);
-//        MyListAdapter toDoRealmAdapter = new MyListAdapter(this, toDoItems, true, true);
-//        RealmRecyclerView realmRecyclerView = (RealmRecyclerView) findViewById(R.id.realm_recycler_view);
-//        realmRecyclerView.setAdapter(toDoRealmAdapter);
-
-
-//        // 'realm' is a field variable
-//         RealmResults<Cache_repos_data> toDoItems = mRealm
-//                .where(Cache_repos_data.class)
-//                 .findAllSorted("id", Sort.ASCENDING);
-//        MyListAdapter toDoRealmAdapter = new MyListAdapter(this, toDoItems, true, true);
-////        RealmRecyclerView realmRecyclerView = (RealmRecyclerView) findViewById(R.id.realm_recycler_view);
-//        recyclerView.setAdapter(toDoRealmAdapter);
-
 
 
     }

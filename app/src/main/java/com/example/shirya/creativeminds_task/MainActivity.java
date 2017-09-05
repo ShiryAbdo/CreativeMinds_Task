@@ -28,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
     private ArrayList<repos_data> data;
     private DataAdapter adapter ;
 
-     private ArrayList<Cache_repos_data> dataR;
+    private ArrayList<Cache_repos_data> dataR;
     adaptor adaptor;
     Realm realm;
     RealmResults<Cache_repos_data> results;
@@ -38,18 +38,16 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
         Realm.init( this);
         RealmConfiguration config = new RealmConfiguration
                 .Builder( ).deleteRealmIfMigrationNeeded() .build();
 
         Realm.setDefaultConfiguration(config);
         realm = Realm.getDefaultInstance();
-        results= realm.where(Cache_repos_data.class).findAllAsync();
-        Toast.makeText(getApplicationContext(),
-                results.get(0)+"", Toast.LENGTH_LONG).show();
-        dataR=new ArrayList<>();
-        dataR.addAll(results);
-          initViews();
+
+
+        initViews();
     }
 
 
@@ -68,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     private void loadJSON(){
-                 Retrofit retrofit = new Retrofit.Builder()
+        Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("https://api.github.com/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
@@ -92,14 +90,39 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(),
                         "Error", Toast.LENGTH_LONG).show();
 
+                Cache_repos_data id = new Cache_repos_data();
+                results= realm.where(Cache_repos_data.class).equalTo("id",id.getId()).findAll();
+
+                Toast.makeText(getApplicationContext(),
+                        results.get(0)+"", Toast.LENGTH_LONG).show();
+                dataR=new ArrayList<>();
+                dataR.addAll(results);
                 adaptor= new adaptor(dataR,MainActivity.this);
                 recyclerView.setAdapter(adaptor);
                 adaptor.notifyDataSetChanged();
-                Log.d("Error",t.getMessage());
-            }
+             }
         });
     }
 
 
+
+
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (realm != null) {
+            realm.close();
+            realm = null;
+        }
+    }
+
+//
+//    @Override
+//    protected void onResume() {
+//        super.onResume();
+//        adaptor.notifyDataSetChanged();
+//
+//    }
 
 }

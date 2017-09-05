@@ -2,6 +2,9 @@ package com.example.shirya.creativeminds_task;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.net.Uri;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -9,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.Button;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -44,26 +48,66 @@ public class adaptor   extends RecyclerView.Adapter<adaptor.ViewHolder> {
     }
 
     @Override
-    public void onBindViewHolder(adaptor.ViewHolder viewHolder, int i) {
+    public void onBindViewHolder(adaptor.ViewHolder viewHolder,final int i) {
 
         viewHolder.name.setText( androidList.get(i).getName());
 
         viewHolder.full_name.setText(androidList.get(i).getFull_name());
 
+
+
         viewHolder.description.setText(androidList.get(i).getDescription());
-        viewHolder.fork.setText(androidList.get(i).getFork().toString());
+//        viewHolder.fork.setText(androidList.get(i).getFork().toString());
+
+        if(androidList.get(i).getFork()==true){
+
+            viewHolder.card.setCardBackgroundColor(Color.GREEN);
+
+        }else {
+
+            viewHolder.card.setCardBackgroundColor(Color.WHITE);
+        }
 
 
 
 
-
-
-        viewHolder.card.setOnClickListener(new View.OnClickListener() {
+        viewHolder.card.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
-            public void onClick(View view) {
-                context.startActivity(new Intent(context, Shwo_Cach.class));
+            public boolean onLongClick(View view) {
+
+                AlertDialog.Builder alert = new AlertDialog.Builder(context);
+                alert.setTitle("");
+                LayoutInflater inflater = LayoutInflater.from( context);
+                View alertLayout = inflater.inflate(R.layout.dialog_view, null);
+                final Button ownerLink = (Button) alertLayout.findViewById(R.id.ownerLink);
+                final Button repository_html_url = (Button) alertLayout.findViewById(R.id.repository_html_url);
+                alert.setView(alertLayout);
+                repository_html_url.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Uri uri = Uri.parse(androidList.get(i).getHtml_url().toString()); // missing 'http://' will cause crashed
+                        context.startActivity(new Intent(Intent.ACTION_VIEW, uri));
+                    }
+                });
+
+                ownerLink.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Uri uri = Uri.parse(androidList.get(i).getOwner_html_url().toString()); // missing 'http://' will cause crashed
+                        context.startActivity(new Intent(Intent.ACTION_VIEW, uri));
+                    }
+                });
+
+
+
+
+                AlertDialog dialog = alert.create();
+                dialog.show();
+                return true;
             }
         });
+
+
         setAnimation(viewHolder.card, i);
 
     }
@@ -95,7 +139,7 @@ public class adaptor   extends RecyclerView.Adapter<adaptor.ViewHolder> {
             name = (TextView)view.findViewById(R.id.name);
             full_name = (TextView)view.findViewById(R.id.full_name);
             description = (TextView)view.findViewById(R.id.description);
-            fork = (TextView)view.findViewById(R.id.fork);
+//            fork = (TextView)view.findViewById(R.id.fork);
 
         }
     }

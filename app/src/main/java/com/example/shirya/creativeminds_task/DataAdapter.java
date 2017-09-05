@@ -2,6 +2,7 @@ package com.example.shirya.creativeminds_task;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -14,6 +15,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import io.realm.Realm;
+import io.realm.RealmConfiguration;
 
 /**
  * Created by shirya on 03/09/17.
@@ -23,13 +25,25 @@ public class DataAdapter  extends RecyclerView.Adapter<DataAdapter.ViewHolder> {
     private ArrayList<repos_data> androidList;
     private Context context;
     private int lastPosition=-1;
-    private Realm mRealm;
+    Realm mRealm;
+
+
+
 
     public DataAdapter(ArrayList<repos_data> android,Context c) {
         this.androidList = android;
         this.context=c;
-        mRealm = Realm.getInstance(context);
-    }
+
+        Realm.init(context);
+        RealmConfiguration config = new RealmConfiguration
+                .Builder( ).deleteRealmIfMigrationNeeded() .build();
+
+        Realm.setDefaultConfiguration(config);
+        mRealm = Realm.getDefaultInstance();
+//        mRealm.setDefaultConfiguration(config);
+
+
+     }
 
     @Override
     public DataAdapter.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
@@ -52,13 +66,25 @@ public class DataAdapter  extends RecyclerView.Adapter<DataAdapter.ViewHolder> {
 
 
 
-
         mRealm.beginTransaction();
         Cache_repos_data realmStudent = mRealm.createObject(Cache_repos_data.class);
         realmStudent.setName(androidList.get(i).getName());
         realmStudent.setFull_name(androidList.get(i).getFull_name());
          mRealm.commitTransaction();
+        viewHolder.card.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                final AlertDialog.Builder builder = new AlertDialog.Builder(context);
 
+//                LayoutInflater li = LayoutInflater.from(this);
+//                View dialogView = li.inflate(R.layout.to_do_dialog_view, null);
+//                final EditText input = (EditText) dialogView.findViewById(R.id.input)
+
+
+
+                return true;
+            }
+        });
         viewHolder.card.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

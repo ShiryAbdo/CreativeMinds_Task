@@ -14,28 +14,25 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import io.realm.Realm;
+import io.realm.RealmConfiguration;
 import io.realm.RealmResults;
 
 /**
  * Created by shirya on 04/09/17.
  */
 
+//
 public class adaptor   extends RecyclerView.Adapter<adaptor.ViewHolder> {
-    private RealmResults<Cache_repos_data> androidList;
+    private  ArrayList<Cache_repos_data> androidList;
     private Context context;
     private int lastPosition=-1;
-    private Realm mRealm;
 
-//    public adaptor(RealmResults<Cache_repos_data> android, Context c) {
-//        this.androidList = android;
-//        this.context=c;
-//        mRealm = Realm.getInstance(context);
-//    }
 
-    public adaptor(RealmResults<Cache_repos_data> cache_repos_datas,Context con) {
+
+    public adaptor(ArrayList<Cache_repos_data> cache_repos_datas, Context con) {
         this.androidList = cache_repos_datas;
         this.context=con;
-        mRealm = Realm.getInstance(context);
+
     }
 
     @Override
@@ -60,11 +57,6 @@ public class adaptor   extends RecyclerView.Adapter<adaptor.ViewHolder> {
 
 
 
-        mRealm.beginTransaction();
-        Cache_repos_data realmStudent = mRealm.createObject(Cache_repos_data.class);
-        realmStudent.setName(androidList.get(i).getName());
-        realmStudent.setFull_name(androidList.get(i).getFull_name());
-        mRealm.commitTransaction();
 
         viewHolder.card.setOnClickListener(new View.OnClickListener() {
             @Override

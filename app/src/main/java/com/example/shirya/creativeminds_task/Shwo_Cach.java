@@ -7,8 +7,7 @@ import android.support.v7.widget.RecyclerView;
 
 import java.util.ArrayList;
 
-import co.moonmonkeylabs.realmrecyclerview.RealmRecyclerView;
-import io.realm.Realm;
+ import io.realm.Realm;
 import io.realm.RealmConfiguration;
 import io.realm.RealmResults;
 import io.realm.Sort;
@@ -20,24 +19,36 @@ public class Shwo_Cach extends AppCompatActivity {
     private RecyclerView recyclerView;
     private ArrayList<Cache_repos_data> data;
      private Realm mRealm;
-
+    adaptor adaptor;
     Realm realm;
+    RealmResults<Cache_repos_data> results;
     ArrayList<String> spacecrafts;
      RecyclerView rv;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shwo__cach);
-        mRealm = Realm.getInstance(this);
+        Realm.init( this);
+        RealmConfiguration config = new RealmConfiguration
+                .Builder( ).deleteRealmIfMigrationNeeded() .build();
+
+        Realm.setDefaultConfiguration(config);
+        mRealm = Realm.getDefaultInstance();
         initViews();
     }
 
     private void initViews(){
-//        recyclerView = (RecyclerView)findViewById(R.id.card_recycler_view);
-//        recyclerView.setHasFixedSize(true);
-//        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
-//        recyclerView.setLayoutManager(layoutManager);
-//
+        recyclerView = (RecyclerView)findViewById(R.id.card_recycler_view);
+        recyclerView.setHasFixedSize(true);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
+        recyclerView.setLayoutManager(layoutManager);
+
+
+
+        results= realm.where(Cache_repos_data.class).findAll();
+        data.addAll(results);
+        adaptor= new adaptor(data,this);
+
 ////        recyclerView.setAdapter(new MyListAdapter(mRealm.allObjects(Cache_repos_data.class)));
 //        RealmResults<Cache_repos_data> cache_repos_datas =mRealm.allObjects(Cache_repos_data.class);
 //        adaptor adp = new adaptor(cache_repos_datas,this);
@@ -45,13 +56,13 @@ public class Shwo_Cach extends AppCompatActivity {
 //        recyclerView.setAdapter(adp);
 
         // 'realm' is a field variable
-        realm = Realm.getInstance(this);
-        RealmResults<Cache_repos_data> toDoItems = realm
-                .where(Cache_repos_data.class)
-                .findAllSorted("id", Sort.ASCENDING);
-        MyListAdapter toDoRealmAdapter = new MyListAdapter(this, toDoItems, true, true);
-        RealmRecyclerView realmRecyclerView = (RealmRecyclerView) findViewById(R.id.realm_recycler_view);
-        realmRecyclerView.setAdapter(toDoRealmAdapter);
+//        realm = Realm.getInstance(this);
+//        RealmResults<Cache_repos_data> toDoItems = realm
+//                .where(Cache_repos_data.class)
+//                .findAllSorted("id", Sort.ASCENDING);
+//        MyListAdapter toDoRealmAdapter = new MyListAdapter(this, toDoItems, true, true);
+//        RealmRecyclerView realmRecyclerView = (RealmRecyclerView) findViewById(R.id.realm_recycler_view);
+//        realmRecyclerView.setAdapter(toDoRealmAdapter);
 
 
 //        // 'realm' is a field variable
@@ -74,6 +85,14 @@ public class Shwo_Cach extends AppCompatActivity {
             mRealm.close();
             mRealm = null;
         }
+    }
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        adaptor.notifyDataSetChanged();
+
     }
 
 

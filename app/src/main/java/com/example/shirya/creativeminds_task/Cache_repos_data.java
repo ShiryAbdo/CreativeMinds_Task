@@ -1,20 +1,13 @@
 package com.example.shirya.creativeminds_task;
 
-import io.realm.RealmModel;
 import io.realm.RealmObject;
-
-import io.realm.annotations.PrimaryKey;
 import io.realm.annotations.Required;
 
 /**
- * Created by shirya on 04/09/17.
+ * Created by shirya on 05/09/17.
  */
 
-public class Cache_repos_data  extends RealmObject  implements RealmModel{
-
-//
-//    @PrimaryKey
-//    private long id;
+public class Cache_repos_data  extends RealmObject {
 
     @Required
     private String name;
@@ -32,18 +25,6 @@ public class Cache_repos_data  extends RealmObject  implements RealmModel{
 
     @Required
     private String owner_html_url;
-
-
-//    public long getId() {
-//        return id;
-//    }
-//
-//    public void setId(long id) {
-//        this.id = id;
-//    }
-
-
-
 
     public String getName() {
         return name;

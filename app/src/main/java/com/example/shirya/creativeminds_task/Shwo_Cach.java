@@ -18,7 +18,7 @@ import static java.security.AccessController.getContext;
 public class Shwo_Cach extends AppCompatActivity {
 
     private RecyclerView recyclerView;
-    private ArrayList<Cache_repos_data> data;
+    private ArrayList<Cache_repos_data> dataR;
      adaptor adaptor;
     Realm realm;
     RealmResults<Cache_repos_data> results;
@@ -35,13 +35,13 @@ public class Shwo_Cach extends AppCompatActivity {
           results= realm.where(Cache_repos_data.class).findAllAsync();
           Toast.makeText(getApplicationContext(),
                   results.get(0)+"", Toast.LENGTH_LONG).show();
-          data=new ArrayList<>();
+          dataR=new ArrayList<>();
           recyclerView = (RecyclerView)findViewById(R.id.card_recycler_view);
           recyclerView.setHasFixedSize(true);
           RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
           recyclerView.setLayoutManager(layoutManager);
-          data.addAll(results);
-          adaptor= new adaptor(data,this);
+          dataR.addAll(results);
+          adaptor= new adaptor(dataR,this);
           recyclerView.setAdapter(adaptor);
           adaptor.notifyDataSetChanged();
 

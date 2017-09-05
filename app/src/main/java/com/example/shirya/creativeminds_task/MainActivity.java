@@ -14,6 +14,8 @@ import java.util.Arrays;
 import java.util.List;
 
 import io.realm.Realm;
+import io.realm.RealmConfiguration;
+import io.realm.RealmResults;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -26,13 +28,28 @@ public class MainActivity extends AppCompatActivity {
     private ArrayList<repos_data> data;
     private DataAdapter adapter ;
 
+     private ArrayList<Cache_repos_data> dataR;
+    adaptor adaptor;
+    Realm realm;
+    RealmResults<Cache_repos_data> results;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        Realm.init( this);
+        RealmConfiguration config = new RealmConfiguration
+                .Builder( ).deleteRealmIfMigrationNeeded() .build();
+
+        Realm.setDefaultConfiguration(config);
+        realm = Realm.getDefaultInstance();
+        results= realm.where(Cache_repos_data.class).findAllAsync();
         Toast.makeText(getApplicationContext(),
-                " creat", Toast.LENGTH_LONG).show();
-        initViews();
+                results.get(0)+"", Toast.LENGTH_LONG).show();
+        dataR=new ArrayList<>();
+        dataR.addAll(results);
+          initViews();
     }
 
 
@@ -74,6 +91,10 @@ public class MainActivity extends AppCompatActivity {
             public void onFailure(Call<List<repos_data>> call, Throwable t) {
                 Toast.makeText(getApplicationContext(),
                         "Error", Toast.LENGTH_LONG).show();
+
+                adaptor= new adaptor(dataR,MainActivity.this);
+                recyclerView.setAdapter(adaptor);
+                adaptor.notifyDataSetChanged();
                 Log.d("Error",t.getMessage());
             }
         });

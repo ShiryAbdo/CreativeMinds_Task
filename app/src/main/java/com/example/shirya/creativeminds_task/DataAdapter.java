@@ -1,8 +1,7 @@
 package com.example.shirya.creativeminds_task;
 
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
+ import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
 import android.support.v7.app.AlertDialog;
@@ -15,10 +14,8 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.UUID;
 
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
@@ -68,11 +65,13 @@ public class DataAdapter  extends RecyclerView.Adapter<DataAdapter.ViewHolder> {
          viewHolder.description.setText(androidList.get(i).getDescription());
 //        viewHolder.fork.setText(androidList.get(i).getOwner().getHtml_url().toString());
 
-
-
-
         mRealm.beginTransaction();
-        Cache_repos_data realmStudent = mRealm.createObject(Cache_repos_data.class, androidList.get(i).getId());
+
+
+
+
+        Cache_repos_data realmStudent = mRealm.createObject(Cache_repos_data.class);
+
         realmStudent.setName(androidList.get(i).getName());
         realmStudent.setFull_name(androidList.get(i).getFull_name());
         if(androidList.get(i).getDescription()!=null){
@@ -82,8 +81,11 @@ public class DataAdapter  extends RecyclerView.Adapter<DataAdapter.ViewHolder> {
         realmStudent.setFork(androidList.get(i).getFork());
         realmStudent.setHtml_url(androidList.get(i).getHtml_url());
         realmStudent.setOwner_html_url(androidList.get(i).getOwner().getHtml_url().toString());
-        realmStudent.setId(androidList.get(i).getId());
-         mRealm.commitTransaction();
+        mRealm.commitTransaction();
+
+
+
+
 
         if(androidList.get(i).getFork()==true){
 

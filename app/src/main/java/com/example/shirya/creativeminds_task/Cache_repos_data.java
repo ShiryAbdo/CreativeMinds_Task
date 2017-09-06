@@ -10,17 +10,7 @@ import io.realm.annotations.Required;
 
 public class Cache_repos_data  extends RealmObject {
 
-    @PrimaryKey
-    private int id;
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public int getId() {
-        return id;
-
-    }
 
     @Required
     private String name;

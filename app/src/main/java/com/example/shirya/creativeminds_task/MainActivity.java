@@ -38,7 +38,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
         Realm.init( this);
         RealmConfiguration config = new RealmConfiguration
                 .Builder( ).deleteRealmIfMigrationNeeded() .build();
@@ -75,8 +74,7 @@ public class MainActivity extends AppCompatActivity {
         call.enqueue(new Callback<List<repos_data>>() {
             @Override
             public void onResponse(Call<List<repos_data>> call, Response<List<repos_data>> response) {
-                Toast.makeText(getApplicationContext(),
-                        "Clicled" + response.body(), Toast.LENGTH_LONG).show();
+
 
                 List<repos_data> responseBody = response.body();
                 data = new ArrayList<>();
@@ -87,14 +85,11 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<List<repos_data>> call, Throwable t) {
-                Toast.makeText(getApplicationContext(),
-                        "Error", Toast.LENGTH_LONG).show();
 
-                Cache_repos_data id = new Cache_repos_data();
-                results= realm.where(Cache_repos_data.class).equalTo("id",id.getId()).findAll();
 
-                Toast.makeText(getApplicationContext(),
-                        results.get(0)+"", Toast.LENGTH_LONG).show();
+                 results= realm.where(Cache_repos_data.class).findAllAsync();
+
+
                 dataR=new ArrayList<>();
                 dataR.addAll(results);
                 adaptor= new adaptor(dataR,MainActivity.this);
@@ -113,6 +108,7 @@ public class MainActivity extends AppCompatActivity {
         super.onDestroy();
         if (realm != null) {
             realm.close();
+//            realm.deleteAll();
             realm = null;
         }
     }
